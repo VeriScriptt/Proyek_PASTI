@@ -30,7 +30,7 @@
                     <div class="form-row">
                         <div class="form-group col-md-3">
                             <label for="nomorKios">Nomor Kios</label>
-                            <input type="text" class="form-control @error('nomor_kios') is-invalid @enderror" id="nomorKios" name="nomor_kios" placeholder="Nomor Kios" value="{{ old('nomor_kios') }}">
+                            <input type="tel" class="form-control @error('nomor_kios') is-invalid @enderror" id="nomorKios" name="nomor_kios" placeholder="Nomor Kios" value="{{ old('nomor_kios') }}" pattern="[0-9]*">
                             @error('nomor_kios')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -59,7 +59,7 @@
                 
                     <div class="form-group">
                         <label for="nomorTelepon">Nomor Telepon</label>
-                        <input type="text" class="form-control @error('nomor_telepon') is-invalid @enderror" id="nomorTelepon" name="nomor_telepon" placeholder="08xxxxxxxx" value="{{ old('nomor_telepon') }}">
+                        <input type="tel" class="form-control @error('nomor_telepon') is-invalid @enderror" id="nomorTelepon" name="nomor_telepon" placeholder="08xxxxxxxx" value="{{ old('nomor_telepon') }}" pattern="[0-9]*">
                         @error('nomor_telepon')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror

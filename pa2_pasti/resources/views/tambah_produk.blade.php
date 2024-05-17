@@ -34,14 +34,15 @@
                             </div>
                             <div class="form-group">
                                 <label for="harga">Harga</label>
-                                <input type="text" class="form-control @error('harga') is-invalid @enderror" id="harga" name="harga" placeholder="Masukkan harga produk" value="{{ old('harga') }}">
+                                <input type="tel" class="form-control @error('harga') is-invalid @enderror" id="harga" name="harga" placeholder="Masukkan harga produk" value="{{ old('harga') }}" pattern="[0-9]*">
                                 @error('harga')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </div>
+                            
                             <div class="form-group">
                                 <label for="stok">Stok</label>
-                                <input type="text" class="form-control @error('stok') is-invalid @enderror" id="stok" name="stok" placeholder="Masukkan stok produk" value="{{ old('stok') }}">
+                                <input type="tel" class="form-control @error('stok') is-invalid @enderror" id="stok" name="stok" placeholder="Masukkan stok produk" value="{{ old('stok') }}" pattern="[0-9]*">
                                 @error('stok')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
