@@ -13,7 +13,7 @@ type Produk struct {
 	Harga     string `json:"harga" gorm:"column:harga"`
 	Stok      string `json:"Stok" gorm:"column:stok"`
 	Deskripsi string `json:"deskripsi" gorm:"column:deskripsi"`
-    IdKategori string   `json:"id_kategori" gorm:"column:id_kategori"`
+    IdKategori int64   `json:"id_kategori" gorm:"column:id_kategori"`
 }
 
 func init() {

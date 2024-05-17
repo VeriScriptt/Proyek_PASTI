@@ -20,6 +20,7 @@ func GetProduk(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+	
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)
 	w.Write(res)
@@ -86,14 +87,14 @@ func UpdateProduk(w http.ResponseWriter, r *http.Request) {
 	if updateProduk.Stok != "" {
 		produkDetails.Stok = updateProduk.Stok
 	}
-	if updateProduk.IdKategori != "" {
+	if updateProduk.IdKategori != 0 {
 		produkDetails.IdKategori = updateProduk.IdKategori
 	}
 	// if updateProduk.Kategori != "" {
 	// 	produkDetails.Kategori = updateProduk.Kategori
 	// }
 
-	db.Save(&produkDetails)
+	db.Save(&produkDetails)	
 	res, _ := json.Marshal(produkDetails)
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(http.StatusOK)

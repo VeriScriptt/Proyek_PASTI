@@ -10,47 +10,111 @@ use  Illuminate\Support\Facades\Cookie;
 
 class AuthController extends Controller
 {
+    // public function showLoginForm()
+    // {
+    //     return view('auth.login');
+    // }
+
     public function showLoginForm()
     {
-        return view('auth.login');
+        try {
+            return view('auth.login');
+        } catch (\Exception $e) {
+            // Handle exceptions (such as issues with the view rendering)
+            return view('toko_down', [
+                'title2' => 'Login',
+                'title' => 'Server Down',
+                'message' => 'An error occurred while trying to load the login form. Please try again later.'
+            ]);
+        }
     }
+
+
+    // public function login(Request $request)
+    // {
+    //     if (Cookie::get('token')) {
+    //         return redirect()->route('produk');
+    //     }
+
+    //     try {
+    //         $credentials = $request->only('username', 'password');
+
+    //         // Send POST request to the Go server
+    //         $response = Http::post('http://localhost:8083/login', $credentials);
+
+    //         // Check the response status
+    //         if ($response->successful()) {
+    //             $data = $response->json();
+
+    //             if ($data['message'] == 'login berhasil') {
+    //                 $token = $data['token'] ?? null;
+
+    //                 if ($token) {
+    //                     // Set the token as a cookie in the response
+    //                     return redirect()->route('produk')
+    //                                      ->cookie('token', $token, 60, null, null, false, true);
+    //                 } else {
+    //                     return back()->withErrors(['message' => 'Token not found']);
+    //                 }
+    //             } else {
+    //                 return back()->withErrors(['message' => $data['message']]);
+    //             }
+    //         } else {
+    //             return back()->withErrors(['message' => 'Login failed']);
+    //         }
+    //     } catch (\Throwable $th) {
+    //         return redirect()->route('login.show')->with('error','Server Login sedang Down');
+    //     }
+    // }
+
 
     public function login(Request $request)
-    {
-        if (Cookie::get('token')) {
-            return redirect()->route('produk');
-        }
+{
+    // Check if the user is already logged in by checking the token cookie
+    if (Cookie::get('token')) {
+        return redirect()->route('produk');
+    }
 
-        try {
-            $credentials = $request->only('username', 'password');
+    try {
+        // Get the credentials from the request
+        $credentials = $request->only('username', 'password');
 
-            // Send POST request to the Go server
-            $response = Http::post('http://localhost:8083/login', $credentials);
+        // Send POST request to the Go server for login
+        $response = Http::post('http://localhost:8083/login', $credentials);
 
-            // Check the response status
-            if ($response->successful()) {
-                $data = $response->json();
+        // Check if the response was successful
+        if ($response->successful()) {
+            $data = $response->json();
 
-                if ($data['message'] == 'login berhasil') {
-                    $token = $data['token'] ?? null;
+            // Check if the login was successful
+            if ($data['message'] == 'login berhasil') {
+                $token = $data['token'] ?? null;
 
-                    if ($token) {
-                        // Set the token as a cookie in the response
-                        return redirect()->route('produk')
-                                         ->cookie('token', $token, 60, null, null, false, true);
-                    } else {
-                        return back()->withErrors(['message' => 'Token not found']);
-                    }
+                if ($token) {
+                    // Set the token as a cookie in the response and redirect to produk
+                    return redirect()->route('produk')
+                                     ->cookie('token', $token, 60, null, null, false, true);
                 } else {
-                    return back()->withErrors(['message' => $data['message']]);
+                    // Token was not found in the response
+                    return back()->withErrors(['message' => 'Token not found']);
                 }
             } else {
-                return back()->withErrors(['message' => 'Login failed']);
+                // Login message was not successful
+                return back()->withErrors(['message' => $data['message']]);
             }
-        } catch (\Throwable $th) {
-            return redirect()->route('login.show')->with('error','Server Login sedang Down');
+        } else {
+            // The response was not successful
+            return back()->withErrors(['message' => 'Login failed']);
         }
+    } catch (\Exception $e) {
+        // Catch any exceptions and redirect to a "server down" page
+        return view('toko_down', [
+            'title2' => 'Login',
+            'title' => 'Server Down',
+            'message' => 'The login server is currently unavailable. Please try again later.'
+        ]);
     }
+}
 
 
 

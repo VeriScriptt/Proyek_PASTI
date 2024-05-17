@@ -48,40 +48,48 @@
                 </div>
                 <div class="modal-body">
                     <!-- Form untuk edit produk -->
-                    <form id="formEditProduk" action="{{ route('update.produk', $data['ID']) }}" method="POST"
-                        enctype="multipart/form-data">
+                    <form id="formEditProduk" action="{{ route('update.produk', $data['ID']) }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                         <div class="form-group">
-                            <div class="form-group col-md-6">
-                                <label for="editNamaProduk">Nama Produk</label>
-                                <input type="text" class="form-control" id="editNamaProduk" name="editNamaProduk"
-                                    value="{{ $data['nama'] }}" required>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label for="editHarga">Harga</label>
-                                <input type="number" class="form-control" id="editHarga" name="editHarga"
-                                    value="{{ $data['harga'] }}" min="0" required>
-                            </div>
+                            <label for="editNamaProduk">Nama Produk</label>
+                            <input type="text" class="form-control" id="editNamaProduk" name="nama" value="{{ $data['nama'] }}" required>
                         </div>
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label for="editStok">Stok</label>
-                                <input type="number" class="form-control" id="editStok" name="editStok"
-                                    value="{{ $data['Stok'] }}" min="0" required>
-                            </div>
+                        <div class="form-group">
+                            <label for="editHarga">Harga</label>
+                            <input type="number" class="form-control" id="editHarga" name="harga" value="{{ $data['harga'] }}" min="0" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="editStok">Stok</label>
+                            <input type="number" class="form-control" id="editStok" name="stok" value="{{ $data['Stok'] }}" min="0" required>
                         </div>
                         <div class="form-group">
                             <label for="editDeskripsi">Deskripsi</label>
-                            <textarea class="form-control" id="editDeskripsi" name="editDeskripsi" rows="3"
-                                required>{{ $data['deskripsi'] }}</textarea>
+                            <textarea class="form-control" id="editDeskripsi" name="deskripsi" rows="3">{{ $data['deskripsi'] }}</textarea>
                         </div>
-
+                        <div class="form-group">
+                            <label for="editKategori">Kategori</label>
+                            <select class="form-control" id="editKategori" name="id_kategori"> <!-- Change name attribute to "id_kategori" -->
+                                <option value="">Pilih Kategori</option>
+                                @if(isset($kategoriOptions)) <!-- Check if $kategoriOptions is set -->
+                                    @foreach($kategoriOptions as $id => $namaKategori) <!-- Iterate through $kategoriOptions -->
+                                        <option value="{{ $id }}" {{ $id == $data['id_kategori'] ? 'selected' : '' }}>{{ $namaKategori }}</option>
+                                    @endforeach
+                                @else
+                                    <option value="">Data kategori tidak tersedia</option>
+                                @endif
+                            </select>
+                        </div>
+                        
+                                             
+                        
+                        
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-                            <button type="submit" name="submit" id="submit"  class="btn btn-primary">Simpan</button>
+                            <button type="submit" name="submit" id="submit" class="btn btn-primary">Simpan</button>
                         </div>
                     </form>
+                    
                 </div>
 
             </div>

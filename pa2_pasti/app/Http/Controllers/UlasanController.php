@@ -10,24 +10,54 @@ use Exception;
 
 class UlasanController extends Controller
 {
-    public function getUlasanApi()
+//     public function getUlasanApi()
+// {
+//     $client = new Client();
+//     $url = "http://localhost:9013/ulasan";
+//     $response = $client->request('GET', $url);
+//     $content = $response->getBody()->getContents();
+//     $contentArray = json_decode($content, true);
+
+//     $hiddenUlasan = collect($contentArray)->where('is_hidden', true);
+//     $visibleUlasan = collect($contentArray)->where('is_hidden', false);
+
+//     // print_r($hiddenUlasan);
+//     return view('ulasan', [
+//         'hiddenUlasan' => $hiddenUlasan,
+//         'visibleUlasan' => $visibleUlasan,
+//         'title' => 'Ulasan'
+//     ]);
+// }
+
+public function getUlasanApi()
 {
     $client = new Client();
     $url = "http://localhost:9013/ulasan";
-    $response = $client->request('GET', $url);
-    $content = $response->getBody()->getContents();
-    $contentArray = json_decode($content, true);
 
-    $hiddenUlasan = collect($contentArray)->where('is_hidden', true);
-    $visibleUlasan = collect($contentArray)->where('is_hidden', false);
+    try {
+        $response = $client->request('GET', $url);
+        $content = $response->getBody()->getContents();
+        $contentArray = json_decode($content, true);
 
-    // print_r($hiddenUlasan);
-    return view('ulasan', [
-        'hiddenUlasan' => $hiddenUlasan,
-        'visibleUlasan' => $visibleUlasan,
-        'title' => 'Ulasan'
-    ]);
+        $hiddenUlasan = collect($contentArray)->where('is_hidden', true);
+        $visibleUlasan = collect($contentArray)->where('is_hidden', false);
+
+        return view('ulasan', [
+            'hiddenUlasan' => $hiddenUlasan,
+            'visibleUlasan' => $visibleUlasan,
+            'title' => 'Ulasan'
+        ]);
+
+    } catch (\Exception $e) {
+        // Handle exceptions (such as connection issues, timeouts, etc.)
+        return view('toko_down', [
+            'title2' => 'Ulasan',
+            'title' => 'Server Down',
+            'message' => 'The server is currently unavailable. Please try again later.'
+        ]);
+    }
 }
+
     
 
 public function hide($id)

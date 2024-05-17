@@ -19,7 +19,7 @@ use App\Http\Controllers\AuthController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
 
 Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login.show');
@@ -31,18 +31,12 @@ Route::post('/login', [AuthController::class, 'login'])->name('login');
 
 Route::middleware(['App\Http\Middleware\Authenticate'])->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-    
 // Tampilkan daftar produk
 Route::get('/produk', [ProdukController::class, 'getProdukApi'])->name('produk');
-
 // Tampilkan form untuk menambah produk
 Route::get('/create-produk', [ProdukController::class, 'create'])->name('create.produk');
-
-// Simpan data produk baru
-
 // Hapus produk
 Route::delete('/produk/{id}', [ProdukController::class, 'deleteProduk'])->name('delete.produk');
-
 // Tampilkan form untuk edit produk
 Route::get('/produk/{id}', [ProdukController::class, 'showUpdate'])->name('show.produk');
 
@@ -65,19 +59,14 @@ Route::put('/edit_produk/{id}', [ProdukController::class, 'updateProduk'])->name
 
 // Rute untuk menampilkan daftar toko
 Route::get('/toko', [TokoController::class, 'index'])->name('toko.index');
-
 // Rute untuk menampilkan formulir membuat toko baru
 Route::get('/toko/create', [TokoController::class, 'create'])->name('toko.create');
-
 // Rute untuk menyimpan data toko baru
 Route::post('/toko', [TokoController::class, 'store'])->name('toko.store');
-
 // Rute untuk menampilkan detail toko
 Route::get('/toko/{id}', [TokoController::class, 'show'])->name('toko.show');
-
 // Rute untuk menampilkan formulir edit toko
 Route::get('/toko/{toko}/edit', [TokoController::class, 'edit'])->name('toko.edit');
-
 // Rute untuk memperbarui data toko
 Route::put('/toko/{id}', [TokoController::class, 'update'])->name('toko.update');
 
@@ -113,4 +102,10 @@ Route::put('/kategori/{id}', [KategoriController::class, 'update'])->name('updat
 Route::post('/add-produk', [ProdukController::class, 'addProduk'])->name('store.produk');
 
 
+    // Route::post('/produk/tambah', [ProdukController::class, 'showTambahProdukForm'])->name('tambah.produk');
+// Rute untuk menampilkan halaman tambah produk
+Route::get('/tambah-produk', [ProdukController::class, 'showTambahProdukForm'])->name('tambah.produk');
+
+// Rute untuk menambahkan produk
+Route::post('/tambah-produk', [ProdukController::class, 'tambahProduk'])->name('store.produk');
 });
