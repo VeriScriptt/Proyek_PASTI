@@ -59,9 +59,9 @@ class TokoController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'nama_toko' => 'required|max:255',
-            'nama_lengkap' => 'required|max:255',
-            'nomor_kios' => 'required|max:20',
+            'nama_toko' => 'required|string|max:255',
+            'nama_lengkap' => 'required|string|max:255',
+            'nomor_kios' => 'required|string|max:255',
             'lantai' => 'required|max:20',
             'email' => 'required|email|max:255',
             'nomor_telepon' => 'required|max:20',
@@ -79,23 +79,6 @@ class TokoController extends Controller
         }
     }
 
-    public function storee(Request $request)
-    {
-        $response = Http::post("http://localhost:9011/produk", [
-            'nama' => $request->input('nama'),
-            'harga' => $request->input('harga'),
-            'stok' => $request->input('stok'),
-            'deskripsi' => $request->input('deskripsi'),
-        ]);
-
-        if ($response->successful()) {
-            return redirect()->route('produk')->with('success', 'Data produk berhasil ditambahkan');
-        } else {
-            return response()->json([
-                'message' => 'Gagal menambahkan data produk'
-            ], 404);
-        }
-    }
 
     /**
      * Display the specified store.
